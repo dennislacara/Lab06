@@ -3,7 +3,7 @@ from mysql.connector import errorcode
 import pathlib
 
 
-def get_connection() -> mysql.connector.connection:
+def get_connection():
     try:
         cnx = mysql.connector.connect(
             option_files=f"{pathlib.Path(__file__).parent.resolve()}/connector.cnf"

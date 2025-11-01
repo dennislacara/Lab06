@@ -12,6 +12,8 @@ class Controller:
     def __init__(self, view : View, model : Autonoleggio):
         self._model = model
         self._view = view
+        self.listaAuto = []
+        self.listaAutoxModello = []
 
     def get_nome(self):
         return self._model.nome
@@ -28,4 +30,11 @@ class Controller:
         self._view.update()
 
     # Altre Funzioni Event Handler
+    def lista_automobili(self, e):
+        self.listaAuto = Autonoleggio.get_automobili(self._model)
+        self._view.aggiornaListaAuto(self.listaAuto)
+
+    def cerca(self, modello):
+        self.listaAutoxModello = Autonoleggio.cerca_automobili_per_modello(self._model, modello)
+        self._view.aggiornaListaxModello(self.listaAutoxModello)
     # TODO

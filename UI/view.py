@@ -63,6 +63,10 @@ class View:
         pulsante_conferma_responsabile = ft.ElevatedButton("Conferma", on_click=self.controller.conferma_responsabile)
 
         # Altri Pulsanti da implementare (es. "Mostra" e "Cerca")
+        self.pulsanteMostra = ft.ElevatedButton("Mostra", on_click=self.controller.lista_automobili)
+        self.pulsanteCerca = ft.ElevatedButton(
+            text="Cerca",
+            on_click=lambda e: self.controller.cerca(self.input_modello_auto.value))
         # TODO
 
         # --- LAYOUT ---
@@ -82,13 +86,42 @@ class View:
             ft.Divider(),
 
             # Sezione 3
+            ft.Row(spacing=20, controls=[ft.Text("AUTOMOBILI", size=20), self.pulsanteMostra],
+                   alignment=ft.MainAxisAlignment.START),
+            self.lista_auto,
+            ft.Divider(),
             # TODO
 
             # Sezione 4
+            ft.Text("Cerca Automobile", size=20),
+            ft.Row(spacing=20, controls=[self.input_modello_auto, self.pulsanteCerca],
+                   alignment=ft.MainAxisAlignment.START),
+            self.lista_auto_ricerca
             # TODO
         )
 
     def cambia_tema(self, e):
         self.page.theme_mode = ft.ThemeMode.DARK if self.toggle_cambia_tema.value else ft.ThemeMode.LIGHT
         self.toggle_cambia_tema.label = "Tema scuro" if self.toggle_cambia_tema.value else "Tema chiaro"
+        self.page.update()
+
+    def aggiornaListaAuto(self, lista):
+        #svuoto la lista attuale
+        self.lista_auto.controls.clear()
+
+        for auto in lista:
+            stato = "✅" if auto.disponibile else "⛔"
+            testo_auto = ft.Text(f'{stato} {auto}')
+            self.lista_auto.controls.append(testo_auto)
+
+        self.page.update()
+
+    def aggiornaListaxModello(self, lista):
+        self.lista_auto_ricerca.controls.clear()
+
+        for auto in lista:
+            stato = "✅" if auto.disponibile else "⛔"
+            testo_auto = ft.Text(f'{stato} {auto}')
+            self.lista_auto_ricerca.controls.append(testo_auto)
+
         self.page.update()
