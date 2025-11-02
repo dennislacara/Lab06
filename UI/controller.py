@@ -25,8 +25,9 @@ class Controller:
         self._model.responsabile = responsabile
 
     def conferma_responsabile(self, e):
-        self._model.responsabile = self._view.input_responsabile.value
+        self._model.responsabile = self._view.input_responsabile.value # uso il setter del responsabile
         self._view.txt_responsabile.value = f"Responsabile: {self._model.responsabile}"
+        self._view.input_responsabile.value = '' # pulisco il campo di scrittura del responsabile
         self._view.update()
 
     # Altre Funzioni Event Handler

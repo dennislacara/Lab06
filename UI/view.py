@@ -62,11 +62,9 @@ class View:
         self.toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=self.cambia_tema)
         pulsante_conferma_responsabile = ft.ElevatedButton("Conferma", on_click=self.controller.conferma_responsabile)
 
-        # Altri Pulsanti da implementare (es. "Mostra" e "Cerca")
+        # Altri Pulsanti da implementare (es. "Mostra" e "Cerca"); le relative funzioni si trovano nel controller
         self.pulsanteMostra = ft.ElevatedButton("Mostra", on_click=self.controller.lista_automobili)
-        self.pulsanteCerca = ft.ElevatedButton(
-            text="Cerca",
-            on_click=lambda e: self.controller.cerca(self.input_modello_auto.value))
+        self.pulsanteCerca = ft.ElevatedButton(text="Cerca", on_click=lambda e: self.controller.cerca(self.input_modello_auto.value))
         # TODO
 
         # --- LAYOUT ---
@@ -118,10 +116,13 @@ class View:
 
     def aggiornaListaxModello(self, lista):
         self.lista_auto_ricerca.controls.clear()
-
-        for auto in lista:
-            stato = "✅" if auto.disponibile else "⛔"
-            testo_auto = ft.Text(f'{stato} {auto}')
-            self.lista_auto_ricerca.controls.append(testo_auto)
-
+        if lista: # not None
+            for auto in lista:
+                stato = "✅" if auto.disponibile else "⛔"
+                testo_auto = ft.Text(f'{stato} {auto}')
+                self.lista_auto_ricerca.controls.append(testo_auto)
+        else:
+            print(f'(Risultato della lettura del database: {lista})') # lista == None
+            self.show_alert(f'Non esiste il modello "{self.input_modello_auto.value}" nel database')
+        self.input_modello_auto.value =''
         self.page.update()

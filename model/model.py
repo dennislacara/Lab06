@@ -39,9 +39,10 @@ class Autonoleggio:
         cursor = connessione.cursor()
         query = """SELECT * FROM automobile"""
         cursor.execute(query)
-        if cursor!= 0:
+        righe = cursor.fetchall()
+        if righe:
             listaAutomobili = []
-            for row in cursor:
+            for row in righe:
                 automobile = Automobile(row[0], row[1], row[2], row[3], row[4])
                 listaAutomobili.append(automobile)
             cursor.close()
@@ -62,14 +63,17 @@ class Autonoleggio:
         cursor = connessione.cursor()
         query = "SELECT * FROM automobile WHERE modello = %s"
         cursor.execute(query, (modello,))
-        if cursor!= 0:
+        righe = cursor.fetchall()
+        if righe:
             listaAutomobili = []
-            for row in cursor:
+            for row in righe:
                 automobile = Automobile(row[0], row[1], row[2], row[3], row[4])
                 listaAutomobili.append(automobile)
             cursor.close()
-            print(listaAutomobili, modello)
+            print(f'---- {modello} ----')
+            print("Lista di automobili calcolata: ",listaAutomobili)
             return listaAutomobili
         else:
+            print(f'Non esiste il modello "{modello}" nel database"')
             return None
         # TODO
